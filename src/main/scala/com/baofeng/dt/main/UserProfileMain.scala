@@ -1,5 +1,7 @@
 package com.baofeng.dt.main
 
+import org.apache.spark.sql.SparkSession
+
 /**
   * 用户画像主程序入口，数据来源主要以wirless、pc、tv埋点数据以及线上用户信息数据库，以及第三方用户信息
   * 主要流程为：数据收集、处理 —— 模型构建（基于规则 + 机器学习） —— 打用户标签 —— 以规定格式存储
@@ -11,6 +13,9 @@ package com.baofeng.dt.main
 object UserProfileMain {
 
   def main(args: Array[String]): Unit = {
+    val spark = SparkSession.builder().appName("UserProfile").master("local[3]").config("spark.sql.warehouse.dir","").enableHiveSupport().getOrCreate()
+
+    spark.sql("")
 
   }
 }
