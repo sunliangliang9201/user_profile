@@ -1,5 +1,6 @@
 package com.baofeng.dt.main
 
+import com.baofeng.dt.util.ConfigUtil
 import org.apache.spark.sql.SparkSession
 
 /**
@@ -13,9 +14,15 @@ import org.apache.spark.sql.SparkSession
 object UserProfileMain {
 
   def main(args: Array[String]): Unit = {
-    val spark = SparkSession.builder().appName("UserProfile").master("local[3]").config("spark.sql.warehouse.dir","").enableHiveSupport().getOrCreate()
-
-    spark.sql("")
+    val appConf = ConfigUtil.getConf.get
+    val spark = SparkSession.builder().appName("UserProfile").master("local[3]").getOrCreate()
+    val hiveDF = spark.read.format("jdbc")
+      .option("url", appConf.getString("hive_url"))
+      .option("dbtable", appConf.getString("hive_dbtable"))
+      .option("user", appConf.getString("hive_user"))
+      .option("password", appConf.getString("hive_passwd"))
+      .load()
+    hiveDF.select("country").show(5)
 
   }
 }
