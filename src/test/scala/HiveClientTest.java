@@ -21,14 +21,13 @@ public class HiveClientTest {
 
     public static void cli() throws Exception {
         Class.forName("org.apache.hive.jdbc.HiveDriver");
-        Connection conn = DriverManager.getConnection("jdbc:hive2://103.26.158.33:11112/tv", "sunliangliang", "KB@:4?nLj4v(by+-%h2");
-        PreparedStatement ps = conn.prepareStatement("show databases");
+//        Connection conn = DriverManager.getConnection("jdbc:hive2://103.26.158.33:11112/tv", "sunliangliang", "KB@:4?nLj4v(by+-%h2");
+        Connection conn = DriverManager.getConnection("jdbc:hive2://103.26.158.182:2181,103.26.158.183:2181/tv;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2_zk", "sll123", "KB@:4?nLj4v(by+-%h2");
+        PreparedStatement ps = conn.prepareStatement("select country from tv.tv_heart_new_org where dt='2019-03-03' limit 2");
         ResultSet res = ps.executeQuery();
         while(res.next()){
             System.out.println(res.getString(1));
         }
-
-
     }
 
     public static String getMd51(String str) throws Exception{
